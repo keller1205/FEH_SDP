@@ -8,7 +8,8 @@ int main() {
     LCD.SetBackgroundColor(BLACK);
     LCD.Clear();
 
-    LCD.WriteLine("Hello World!");
+    LCD.WriteLine("Hello Adam!");
+    LCD.DrawRectangle(1,1,100,20);
     
     while (1) {
         LCD.Update();
