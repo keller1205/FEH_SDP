@@ -240,50 +240,56 @@ int move_user(int i)
     if (LCD.Touch(&x_user, &y_user))
     {
 
-        if (((x_user > 70 && x_user < 100) && (y_user > 50 && y_user < 80))||((x_user > 70 && x_user < 100) && (y_user > 105 && y_user < 135))||((x_user > 70 && x_user < 100) && (y_user > 170 && y_user < 200)))
+       //teleport feature
+           if ( (y_user > 50 && y_user < 80) || (y_user > 105 && y_user < 135) || (y_user > 170 && y_user < 200))
            {
-            switch (i)
-            {
-                case 1:
-                    LCD.SetFontColor(PURPLE);
-                    LCD.DrawRectangle(70,50,30,30);
-                    LCD.FillRectangle(70,50,30,30);
-                    LCD.Update();
-                    Sleep(100);
+              if(x_user > 70 && x_user < 100)  
+              {
+                switch (i)
+                {
+                    case 1:
+                        LCD.SetFontColor(PURPLE);
+                        LCD.DrawRectangle(70,50,30,30);
+                        LCD.FillRectangle(70,50,30,30);
+                        LCD.Update();
+                        Sleep(100);
 
-                    LCD.SetFontColor(BLACK);
-                    LCD.DrawRectangle(70,50,30,30);
-                    LCD.FillRectangle(70,50,30,30);
-                    LCD.Update();
-                    break;
+                        LCD.SetFontColor(BLACK);
+                        LCD.DrawRectangle(70,50,30,30);
+                        LCD.FillRectangle(70,50,30,30);
+                        LCD.Update();
+                        break;
 
-                case 2:
-                    LCD.SetFontColor(PURPLE);
-                    LCD.DrawRectangle(70,105,30,30);
-                    LCD.FillRectangle(70,105,30,30);
-                    LCD.Update();
-                    Sleep(100);
+                    case 2:
+                        LCD.SetFontColor(PURPLE);
+                        LCD.DrawRectangle(70,105,30,30);
+                        LCD.FillRectangle(70,105,30,30);
+                        LCD.Update();
+                        Sleep(100);
 
-                    LCD.SetFontColor(BLACK);
-                    LCD.DrawRectangle(70,105,30,30);
-                    LCD.FillRectangle(70,105,30,30);
-                    LCD.Update();
-                    break;
+                        LCD.SetFontColor(BLACK);
+                        LCD.DrawRectangle(70,105,30,30);
+                        LCD.FillRectangle(70,105,30,30);
+                        LCD.Update();
+                        break;
 
-                case 3:
-                    LCD.SetFontColor(PURPLE);
-                    LCD.DrawRectangle(70,170,30,30);         
-                    LCD.FillRectangle(70,170,30,30);
-                    LCD.Update();
-                    Sleep(100);
+                    case 3:
+                        LCD.SetFontColor(PURPLE);
+                        LCD.DrawRectangle(70,170,30,30);         
+                        LCD.FillRectangle(70,170,30,30);
+                        LCD.Update();
+                        Sleep(100);
 
-                    LCD.SetFontColor(BLACK);
-                    LCD.DrawRectangle(70,170,30,30);
-                    LCD.FillRectangle(70,170,30,30);
-                    LCD.Update();
-                    break;
-            }
+                        LCD.SetFontColor(BLACK);
+                        LCD.DrawRectangle(70,170,30,30);
+                        LCD.FillRectangle(70,170,30,30);
+                        LCD.Update();
+                        break;
+                }
+              }
            }
+
+
 
 
 
