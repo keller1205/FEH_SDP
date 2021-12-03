@@ -9,7 +9,7 @@
 
  int difficultyButtons();
 
- void move_user();
+ int move_user(int i);
 
  
 
@@ -67,6 +67,17 @@ int main() {
                 difficulty = difficultyButtons();
                 Game spaceJunk;
                 spaceJunk.playGame(difficulty);
+                
+
+                int A =2;
+
+                while(1)
+                {
+                 A = move_user(A);   
+                }
+                
+
+
             }
              if((xTouch > 100 && xTouch < 220) && (yTouch > 120 && yTouch < 150))
             {
@@ -214,8 +225,10 @@ void Game::playGame(int d)
 }
 
 
-void move_user()
+int move_user(int i)
 {
+
+    LCD.ClearBuffer();
 
     //sets variables for user position
     float x_user, y_user;
@@ -226,8 +239,59 @@ void move_user()
     //Accepts user input
     if (LCD.Touch(&x_user, &y_user))
     {
-        if((x_user) > 70 && x_user < 100) && (y_user > 50 && y_user < 80))
+
+        if (((x_user > 70 && x_user < 100) && (y_user > 50 && y_user < 80))||((x_user > 70 && x_user < 100) && (y_user > 105 && y_user < 135))||((x_user > 70 && x_user < 100) && (y_user > 170 && y_user < 200)))
+           {
+            switch (i)
+            {
+                case 1:
+                    LCD.SetFontColor(PURPLE);
+                    LCD.DrawRectangle(70,50,30,30);
+                    LCD.FillRectangle(70,50,30,30);
+                    LCD.Update();
+                    Sleep(100);
+
+                    LCD.SetFontColor(BLACK);
+                    LCD.DrawRectangle(70,50,30,30);
+                    LCD.FillRectangle(70,50,30,30);
+                    LCD.Update();
+                    break;
+
+                case 2:
+                    LCD.SetFontColor(PURPLE);
+                    LCD.DrawRectangle(70,105,30,30);
+                    LCD.FillRectangle(70,105,30,30);
+                    LCD.Update();
+                    Sleep(100);
+
+                    LCD.SetFontColor(BLACK);
+                    LCD.DrawRectangle(70,105,30,30);
+                    LCD.FillRectangle(70,105,30,30);
+                    LCD.Update();
+                    break;
+
+                case 3:
+                    LCD.SetFontColor(PURPLE);
+                    LCD.DrawRectangle(70,170,30,30);         
+                    LCD.FillRectangle(70,170,30,30);
+                    LCD.Update();
+                    Sleep(100);
+
+                    LCD.SetFontColor(BLACK);
+                    LCD.DrawRectangle(70,170,30,30);
+                    LCD.FillRectangle(70,170,30,30);
+                    LCD.Update();
+                    break;
+            }
+           }
+
+
+
+
+        if((x_user > 70 && x_user < 100) && (y_user > 50 && y_user < 80))
         {
+            i=1;    
+
             //draws black rectangles in other locations
             LCD.SetFontColor(BLACK);
             LCD.DrawRectangle(70,105,30,30);
@@ -252,8 +316,10 @@ void move_user()
         
         }//first section of grid structure
 
-        if((x_user) > 70 && x_user < 100) && (y_user > 105 && y_user < 135))
+        if((x_user > 70 && x_user < 100) && (y_user > 105 && y_user < 135))
         {
+            i=2;
+
             //draws black rectangles in other locations
             LCD.SetFontColor(BLACK);
             LCD.DrawRectangle(70,50,30,30);
@@ -278,12 +344,36 @@ void move_user()
         
         }//second section of grid structure
 
-        if((x_user) > 70 && x_user < 100) && (y_user > 170 && y_user < 200))
+        if((x_user > 70 && x_user < 100) && (y_user > 170 && y_user < 200))
         {
+            i=3;
 
+            //draws black rectangles in other locations
+            LCD.SetFontColor(BLACK);
+            LCD.DrawRectangle(70,50,30,30);
+            LCD.FillRectangle(70,50,30,30);
+
+            LCD.DrawRectangle(70,105,30,30);
+            LCD.FillRectangle(70,105,30,30);
+
+            //Draws white x user locations
+            LCD.SetFontColor(WHITE);
+            LCD.WriteAt("X", 78, 50);
+            LCD.WriteAt("X", 78, 105);
+
+            //Moves user block
+            LCD.SetFontColor(WHITE);
+            LCD.DrawRectangle(70,170,30,30);
+            LCD.FillRectangle(70,170,30,30);
+
+            //updates LCD
+            LCD.Update();
+
+        
         }//third section of grid structure
 
 
+        return i;
     }//touch if
     
 
