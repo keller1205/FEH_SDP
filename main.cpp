@@ -9,7 +9,7 @@
 
  int difficultyButtons();
 
- int move_user(int i);
+ 
 
  
 
@@ -23,7 +23,7 @@
         int getLives();
         void setLives(int*);
         void playGame(int);
-        
+        int move_user(int i);
 
      private:
         int score;
@@ -59,50 +59,96 @@ int main() {
         {
          if(LCD.Touch(&xTouch, &yTouch))
         {
-            if((xTouch > 100 && xTouch < 220) && (yTouch > 80 && yTouch < 110))
+            if((xTouch > 100 && xTouch < 220) && (yTouch > 45 && yTouch < 75))
             {
                 LCD.Clear();
                 menu_open = 0;
                 Sleep(0.1);
                 difficulty = difficultyButtons();
-                Game spaceJunk;
-                spaceJunk.playGame(difficulty);
+             
+                if (difficulty != 0)
+                {
+                    Game spaceJunk;
+                    spaceJunk.playGame(difficulty);
                 
 
-                int A =2;
+                    int A = 2;
 
-                while(1)
-                {
-                 A = move_user(A);   
+                    while(1)
+                    {
+                        A = spaceJunk.move_user(A);   
+                    }
+
                 }
+
+                else if (difficulty == 0)
+                {
+                    menu_open = 1;
+
+
+                    LCD.Clear();
+                    drawMenu();
+                    Sleep(100);
+                    LCD.ClearBuffer();
+
+                }
+
                 
 
 
             }
-             if((xTouch > 100 && xTouch < 220) && (yTouch > 120 && yTouch < 150))
+             if((xTouch > 100 && xTouch < 220) && (yTouch > 85 && yTouch < 115))
             {
                 LCD.Clear();
                 LCD.WriteAt("Stats: ", 10, 10);
+
+                LCD.DrawRectangle(180,195,120,30);
+                LCD.WriteAt("Back", 185, 195);
+
+
                 Sleep(8.0);
                 LCD.Clear();
                 drawMenu();
             }
-            if((xTouch > 80 && xTouch < 250) && (yTouch > 160 && yTouch < 190))
+
+
+
+            if((xTouch > 80 && xTouch < 250) && (yTouch > 125 && yTouch < 155))
             {
                 LCD.Clear();
-                LCD.WriteAt("Made by Ashton Keller and",10,10);
-                LCD.WriteAt("Landon Beckley",10,30);
-                LCD.WriteAt("Rules:",10,50);
-                LCD.WriteAt("Tap the X's to move.",10,70);
-                LCD.WriteAt("Block the incoming debris",10,90);
-                LCD.WriteAt("From hitting your ship",10,110);
-                LCD.WriteAt("If you take too many hits,",10,130);
-                LCD.WriteAt("You lose",10,150);
+                //LCD.WriteAt("Made by Ashton Keller and",10,10);
+               // LCD.WriteAt("Landon Beckley",10,30);
+                LCD.WriteAt("Rules:",10,20);
+                LCD.WriteAt("Tap the X's to move.",10,40);
+                LCD.WriteAt("Block the incoming debris",10,60);
+                LCD.WriteAt("From hitting your ship",10,80);
+                LCD.WriteAt("If you take too many hits,",10,100);
+                LCD.WriteAt("You lose",10,120);
                 Sleep(5.0);
                 LCD.Clear();
                 drawMenu();
             }
-            if((xTouch > 100 && xTouch < 220) && (yTouch > 200 && yTouch < 230))
+
+
+            if((xTouch > 80 && xTouch < 250) && (yTouch > 165 && yTouch < 185))
+            {
+                LCD.Clear();
+                LCD.WriteAt("Made by Ashton Keller and",10,10);
+                LCD.WriteAt("Landon Beckley",10,30);
+               // LCD.WriteAt("Rules:",10,50);
+               // LCD.WriteAt("Tap the X's to move.",10,70);
+               // LCD.WriteAt("Block the incoming debris",10,90);
+                //LCD.WriteAt("From hitting your ship",10,110);
+                //LCD.WriteAt("If you take too many hits,",10,130);
+               // LCD.WriteAt("You lose",10,150);
+                Sleep(5.0);
+                LCD.Clear();
+                drawMenu();
+            }
+
+
+
+            if((xTouch > 100 && xTouch < 220) && (yTouch > 205 && yTouch < 235))
             {
                 LCD.Clear();
                 LCD.WriteAt("Thanks for Playing!",0,10);
@@ -131,19 +177,22 @@ void drawMenu()
     LCD.Clear();
 
     
-    LCD.WriteAt("Space Junk", 100, 40);
+    LCD.WriteAt("Space Junk", 100, 15);
 
-    LCD.DrawRectangle(100,80,120,30);
-    LCD.WriteAt("Play",130,85);
+    LCD.DrawRectangle(100,45,120,30);
+    LCD.WriteAt("Play",130,50);
 
-    LCD.DrawRectangle(100,120,120,30);
-    LCD.WriteAt("Stats", 130, 125);
+    LCD.DrawRectangle(100,85,120,30);
+    LCD.WriteAt("Stats", 130, 90);
 
-    LCD.DrawRectangle(80,160,170,30);
-    LCD.WriteAt("Rules/Credits", 85, 165);
+    LCD.DrawRectangle(100,125,120,30);
+    LCD.WriteAt("Rules", 130, 130);
 
-    LCD.DrawRectangle(100,200,120,30);
-    LCD.WriteAt("Quit", 130, 205);
+    LCD.DrawRectangle(100,165,120,30);
+    LCD.WriteAt("Credits", 120, 170);
+
+    LCD.DrawRectangle(100,205,120,30);
+    LCD.WriteAt("Quit", 130, 210);
 }
 
 int difficultyButtons()
@@ -158,6 +207,13 @@ int difficultyButtons()
 
     LCD.DrawRectangle(100,120,120,30);
     LCD.WriteAt("Hard", 130, 125);
+
+    LCD.DrawRectangle(100,160,120,30);
+    LCD.WriteAt("Back", 130, 165);
+
+
+
+
     while(buttonsOpen == 1)
     {
         if(LCD.Touch(&xTouch, &yTouch))
@@ -174,6 +230,20 @@ int difficultyButtons()
                     LCD.Clear();
                     buttonsOpen = 0;
                 }
+
+                if((xTouch > 100 && xTouch < 220) && (yTouch > 160 && yTouch < 180))
+                {
+                    
+                    difficulty = 0;    ///escape
+                    LCD.Clear();
+                    buttonsOpen = 0;
+                    
+                }
+
+
+
+
+
             }   
     }
     LCD.Update();
@@ -219,13 +289,13 @@ void Game::playGame(int d)
         LCD.WriteAt("X", 78, 170);
         
     }
- 
+
+       
 
 
 }
 
-
-int move_user(int i)
+int Game::move_user(int i)
 {
 
     LCD.ClearBuffer();
