@@ -1,6 +1,7 @@
 #include <FEHLCD.h>
 //#include <FEHIO.h>
 #include <FEHUtility.h>
+#include <FEHRandom.h>
 
 
 
@@ -8,8 +9,6 @@
  void drawMenu();
 
  int difficultyButtons();
-
- 
 
  
 
@@ -36,6 +35,32 @@
     lives = default_lives;
 }
 
+
+
+
+
+//Class Enemy
+class Enemy
+{
+    public:
+        Enemy(int default_x = 0, int default_y = 0, int default_r = 0);
+        int* getR();
+        void genR(int *);
+        void initialize();
+        void move();
+
+    private:
+        int x,y,r;
+
+};
+
+Enemy::Enemy(int default_x, int default_y, int default_r)
+{
+    x = default_x;
+    y = default_y;
+    r = default_r;
+}
+
  
 
 int main() {
@@ -55,6 +80,7 @@ int main() {
     
     
     drawMenu();
+    
     while(game_open == 1)
     {
         while(menu_open == 1)
@@ -65,6 +91,8 @@ int main() {
 
          if(LCD.Touch(&xTouch, &yTouch))
         {
+
+            
             if((xTouch > 100 && xTouch < 220) && (yTouch > 45 && yTouch < 75))
             {
                 LCD.Clear();
@@ -82,12 +110,12 @@ int main() {
                     spaceJunk.playGame(difficulty);
                 
 
-                    int A = 2;
+                   // int A = 2;
 
-                    while(1)
+                   /* while(1)
                     {
                         A = spaceJunk.move_user(A);   
-                    }
+                    }*/
 
                 }
 
@@ -349,7 +377,7 @@ int difficultyButtons()
     return difficulty;
 }
 
-void Game::playGame(int d)
+/*void Game::playGame(int d)
 {
     LCD.Clear();
     LCD.SetFontColor(GRAY);
@@ -392,9 +420,10 @@ void Game::playGame(int d)
        
 
 
-}
+}*/
 
 int Game::move_user(int i)
+
 {
 
     LCD.ClearBuffer();
@@ -402,8 +431,18 @@ int Game::move_user(int i)
     //sets variables for user position
     float x_user, y_user;
 
+
+    float time; 
+    float time_critical = 0.1;
+    time = TimeNow();
     //waits while there is no touch to the screen
-    while (!LCD.Touch(&x_user, &y_user)){}
+    //while (!LCD.Touch(&x_user, &y_user)){}
+
+    while ((TimeNow() - time < time_critical)&&!LCD.Touch(&x_user, &y_user))
+    {
+        
+
+    }
 
     //Accepts user input
     if (LCD.Touch(&x_user, &y_user))
@@ -543,7 +582,7 @@ int Game::move_user(int i)
 
             //updates LCD
             LCD.Update();
-
+            LCD.ClearBuffer();
         
         }//third section of grid structure
 
@@ -553,4 +592,128 @@ int Game::move_user(int i)
     
 
 
+}
+
+
+
+
+/*Added stuff below*//////////////////////////////////////////////////////////////////////
+void Game::playGame(int d)
+{
+    LCD.Clear();
+    LCD.SetFontColor(GRAY);
+    LCD.DrawRectangle(0,0,40,239);
+    LCD.FillRectangle(0,0,40,239);
+
+    LCD.SetFontColor(WHITE);
+    LCD.DrawRectangle(70,105,30,30);
+    LCD.FillRectangle(70,105,30,30);
+
+    if(d == 1)
+    {
+        LCD.SetFontColor(RED);
+        LCD.DrawCircle(300,20,10);
+        LCD.FillCircle(300,20,8);
+        LCD.DrawCircle(270,20,10);
+        LCD.FillCircle(270,20,8);
+        LCD.DrawCircle(240,20,10);
+        LCD.FillCircle(240,20,8);
+
+        LCD.SetFontColor(WHITE);
+        LCD.WriteAt("X", 78, 50);
+        LCD.WriteAt("X", 78, 105);
+        LCD.WriteAt("X", 78, 170);
+
+    }
+    else if(d == 2)
+    {
+        LCD.SetFontColor(RED);
+        LCD.DrawCircle(300,20,10);
+        LCD.FillCircle(300,20,8);
+
+        LCD.SetFontColor(WHITE);
+        LCD.WriteAt("X", 78, 50);
+        LCD.WriteAt("X", 78, 105);
+        LCD.WriteAt("X", 78, 170);
+       
+    }
+
+    Enemy enemy1;
+    int *enemy1R = enemy1.getR();
+    enemy1.genR(enemy1R);
+    enemy1.initialize();
+
+    int A = 2;
+
+    
+
+    while(1)
+    {
+        
+
+        
+            enemy1.move();
+
+            A = move_user(A);
+
+            Sleep(2);
+        
+
+    }
+ 
+   
+   
+    while(true)
+    {
+        LCD.Update();
+    }
+
+}
+
+
+
+int* Enemy::getR()
+{
+    return &r;
+}
+
+
+void Enemy::genR(int *a)
+{
+   
+    *a = (Random.RandInt() % 3) + 1;
+}
+
+void Enemy::initialize()
+{
+    if(r == 1)
+    {
+        x = 270;
+        y = 55;
+        LCD.DrawRectangle(x,y,20,5);
+    }
+    else if (r == 2)
+    {
+        x = 270;
+        y = 110;
+        LCD.DrawRectangle(x,y,20,5);
+    }
+    else if (r == 3)
+    {
+        x = 270;
+        y = 175;
+        LCD.DrawRectangle(x,y,20,5);
+    }
+}
+
+void Enemy::move()
+{
+    LCD.SetFontColor(BLACK);
+    LCD.DrawRectangle(x,y,20,5);
+    x = x - 1;
+    LCD.SetFontColor(WHITE);
+    LCD.DrawRectangle(x,y,20,5);
+    LCD.WriteAt("X", 78, 50);
+    LCD.WriteAt("X", 78, 105);
+    LCD.WriteAt("X", 78, 170);
 }

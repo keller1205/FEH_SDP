@@ -1,6 +1,7 @@
 #include <FEHLCD.h>
 //#include <FEHIO.h>
 #include <FEHUtility.h>
+#include <FEHRandom.h>
 
 
 
@@ -8,8 +9,6 @@
  void drawMenu();
 
  int difficultyButtons();
-
- 
 
  
 
@@ -36,29 +35,64 @@
     lives = default_lives;
 }
 
+
+
+
+
+//Class Enemy
+class Enemy
+{
+    public:
+        Enemy(int default_x = 0, int default_y = 0, int default_r = 0);
+        int* getR();
+        void genR(int *);
+        void initialize();
+        void move();
+
+    private:
+        int x,y,r;
+
+};
+
+Enemy::Enemy(int default_x, int default_y, int default_r)
+{
+    x = default_x;
+    y = default_y;
+    r = default_r;
+}
+
  
 
 int main() {
     // Clear background
     LCD.Clear();
+    
 
     //Declare Variables
     int menu_open = 1;
     int difficulty;
     float xTouch, yTouch;
     int game_open = 1;
+    int back_button = 1;
     
 
    
     
     
     drawMenu();
+    
     while(game_open == 1)
     {
         while(menu_open == 1)
         {
+
+            Sleep(100);
+            LCD.ClearBuffer();
+
          if(LCD.Touch(&xTouch, &yTouch))
         {
+
+            
             if((xTouch > 100 && xTouch < 220) && (yTouch > 45 && yTouch < 75))
             {
                 LCD.Clear();
@@ -66,18 +100,22 @@ int main() {
                 Sleep(0.1);
                 difficulty = difficultyButtons();
              
+
+
+
+
                 if (difficulty != 0)
                 {
                     Game spaceJunk;
                     spaceJunk.playGame(difficulty);
                 
 
-                    int A = 2;
+                   // int A = 2;
 
-                    while(1)
+                   /* while(1)
                     {
                         A = spaceJunk.move_user(A);   
-                    }
+                    }*/
 
                 }
 
@@ -93,62 +131,151 @@ int main() {
 
                 }
 
-                
-
 
             }
-             if((xTouch > 100 && xTouch < 220) && (yTouch > 85 && yTouch < 115))
+
+
+            else if((xTouch > 100 && xTouch < 220) && (yTouch > 85 && yTouch < 115))
             {
+                
                 LCD.Clear();
+                menu_open = 0;
+                back_button = 1;
+                Sleep(0.1);
+
+
+
                 LCD.WriteAt("Stats: ", 10, 10);
 
-                LCD.DrawRectangle(180,195,120,30);
-                LCD.WriteAt("Back", 185, 195);
+                LCD.DrawRectangle(200,195,80,30);
+                LCD.WriteAt("Back", 215, 200);
+
+                /*Include functions to display statistics*/
+                //
+                //
+                ///////////////////////////////////////////
 
 
-                Sleep(8.0);
-                LCD.Clear();
-                drawMenu();
+
+                
+                Sleep(100);
+                LCD.ClearBuffer();
+
+                while (back_button == 1)
+                {
+                    while (!LCD.Touch(&xTouch, &yTouch)) {}
+
+                    if((xTouch > 200 && xTouch < 280) && (yTouch > 195 && yTouch < 225))
+                    {
+
+                        
+                        back_button = 0;
+                        menu_open = 1;
+
+                        LCD.Clear();
+                        drawMenu();
+                        Sleep(300);
+                        LCD.ClearBuffer();
+
+                    }
+
+                }
+
+                
+             
             }
 
 
 
-            if((xTouch > 80 && xTouch < 250) && (yTouch > 125 && yTouch < 155))
+            else if((xTouch > 80 && xTouch < 250) && (yTouch > 125 && yTouch < 155))
             {
                 LCD.Clear();
-                //LCD.WriteAt("Made by Ashton Keller and",10,10);
-               // LCD.WriteAt("Landon Beckley",10,30);
+                menu_open = 0;
+                back_button = 1;
+
+
+                
                 LCD.WriteAt("Rules:",10,20);
                 LCD.WriteAt("Tap the X's to move.",10,40);
                 LCD.WriteAt("Block the incoming debris",10,60);
                 LCD.WriteAt("From hitting your ship",10,80);
                 LCD.WriteAt("If you take too many hits,",10,100);
                 LCD.WriteAt("You lose",10,120);
-                Sleep(5.0);
-                LCD.Clear();
-                drawMenu();
+
+                LCD.DrawRectangle(200,195,80,30);
+                LCD.WriteAt("Back", 215, 200);
+
+                      
+                Sleep(100);
+                LCD.ClearBuffer();
+
+                while (back_button == 1)
+                {
+                    while (!LCD.Touch(&xTouch, &yTouch)) {}
+
+                    if((xTouch > 200 && xTouch < 280) && (yTouch > 195 && yTouch < 225))
+                    {
+
+                        
+                        back_button = 0;
+                        menu_open = 1;
+
+                        LCD.Clear();
+                        drawMenu();
+                        Sleep(300);
+                        LCD.ClearBuffer();
+
+                    }
+
+                }
+
+
             }
 
 
-            if((xTouch > 80 && xTouch < 250) && (yTouch > 165 && yTouch < 185))
+
+
+            else if((xTouch > 80 && xTouch < 250) && (yTouch > 165 && yTouch < 185))
             {
                 LCD.Clear();
+                menu_open = 0;
+                back_button = 1;
+
+
                 LCD.WriteAt("Made by Ashton Keller and",10,10);
                 LCD.WriteAt("Landon Beckley",10,30);
-               // LCD.WriteAt("Rules:",10,50);
-               // LCD.WriteAt("Tap the X's to move.",10,70);
-               // LCD.WriteAt("Block the incoming debris",10,90);
-                //LCD.WriteAt("From hitting your ship",10,110);
-                //LCD.WriteAt("If you take too many hits,",10,130);
-               // LCD.WriteAt("You lose",10,150);
-                Sleep(5.0);
-                LCD.Clear();
-                drawMenu();
+
+                LCD.DrawRectangle(200,195,80,30);
+                LCD.WriteAt("Back", 215, 200);
+
+
+               
+                while (back_button == 1)
+                {
+                    while (!LCD.Touch(&xTouch, &yTouch)) {}
+
+                    if((xTouch > 200 && xTouch < 280) && (yTouch > 195 && yTouch < 225))
+                    {
+
+                        
+                        back_button = 0;
+                        menu_open = 1;
+
+                        LCD.Clear();
+                        drawMenu();
+                        Sleep(300);
+                        LCD.ClearBuffer();
+
+                    }
+
+                }
+
+                
             }
 
 
 
-            if((xTouch > 100 && xTouch < 220) && (yTouch > 205 && yTouch < 235))
+            else if((xTouch > 100 && xTouch < 220) && (yTouch > 205 && yTouch < 235))
             {
                 LCD.Clear();
                 LCD.WriteAt("Thanks for Playing!",0,10);
@@ -250,7 +377,7 @@ int difficultyButtons()
     return difficulty;
 }
 
-void Game::playGame(int d)
+/*void Game::playGame(int d)
 {
     LCD.Clear();
     LCD.SetFontColor(GRAY);
@@ -293,9 +420,10 @@ void Game::playGame(int d)
        
 
 
-}
+}*/
 
 int Game::move_user(int i)
+
 {
 
     LCD.ClearBuffer();
@@ -303,8 +431,18 @@ int Game::move_user(int i)
     //sets variables for user position
     float x_user, y_user;
 
+
+    float time; 
+    float time_critical = 0.1;
+    time = TimeNow();
     //waits while there is no touch to the screen
-    while (!LCD.Touch(&x_user, &y_user)){}
+    //while (!LCD.Touch(&x_user, &y_user)){}
+
+    while ((TimeNow() - time < time_critical)&&!LCD.Touch(&x_user, &y_user))
+    {
+        
+
+    }
 
     //Accepts user input
     if (LCD.Touch(&x_user, &y_user))
@@ -444,7 +582,7 @@ int Game::move_user(int i)
 
             //updates LCD
             LCD.Update();
-
+            LCD.ClearBuffer();
         
         }//third section of grid structure
 
@@ -454,4 +592,128 @@ int Game::move_user(int i)
     
 
 
+}
+
+
+
+
+/*Added stuff below*//////////////////////////////////////////////////////////////////////
+void Game::playGame(int d)
+{
+    LCD.Clear();
+    LCD.SetFontColor(GRAY);
+    LCD.DrawRectangle(0,0,40,239);
+    LCD.FillRectangle(0,0,40,239);
+
+    LCD.SetFontColor(WHITE);
+    LCD.DrawRectangle(70,105,30,30);
+    LCD.FillRectangle(70,105,30,30);
+
+    if(d == 1)
+    {
+        LCD.SetFontColor(RED);
+        LCD.DrawCircle(300,20,10);
+        LCD.FillCircle(300,20,8);
+        LCD.DrawCircle(270,20,10);
+        LCD.FillCircle(270,20,8);
+        LCD.DrawCircle(240,20,10);
+        LCD.FillCircle(240,20,8);
+
+        LCD.SetFontColor(WHITE);
+        LCD.WriteAt("X", 78, 50);
+        LCD.WriteAt("X", 78, 105);
+        LCD.WriteAt("X", 78, 170);
+
+    }
+    else if(d == 2)
+    {
+        LCD.SetFontColor(RED);
+        LCD.DrawCircle(300,20,10);
+        LCD.FillCircle(300,20,8);
+
+        LCD.SetFontColor(WHITE);
+        LCD.WriteAt("X", 78, 50);
+        LCD.WriteAt("X", 78, 105);
+        LCD.WriteAt("X", 78, 170);
+       
+    }
+
+    Enemy enemy1;
+    int *enemy1R = enemy1.getR();
+    enemy1.genR(enemy1R);
+    enemy1.initialize();
+
+    int A = 2;
+
+    
+
+    while(1)
+    {
+        
+
+        
+            enemy1.move();
+
+            A = move_user(A);
+
+            Sleep(2);
+        
+
+    }
+ 
+   
+   
+    while(true)
+    {
+        LCD.Update();
+    }
+
+}
+
+
+
+int* Enemy::getR()
+{
+    return &r;
+}
+
+
+void Enemy::genR(int *a)
+{
+   
+    *a = (Random.RandInt() % 3) + 1;
+}
+
+void Enemy::initialize()
+{
+    if(r == 1)
+    {
+        x = 270;
+        y = 55;
+        LCD.DrawRectangle(x,y,20,5);
+    }
+    else if (r == 2)
+    {
+        x = 270;
+        y = 110;
+        LCD.DrawRectangle(x,y,20,5);
+    }
+    else if (r == 3)
+    {
+        x = 270;
+        y = 175;
+        LCD.DrawRectangle(x,y,20,5);
+    }
+}
+
+void Enemy::move()
+{
+    LCD.SetFontColor(BLACK);
+    LCD.DrawRectangle(x,y,20,5);
+    x = x - 1;
+    LCD.SetFontColor(WHITE);
+    LCD.DrawRectangle(x,y,20,5);
+    LCD.WriteAt("X", 78, 50);
+    LCD.WriteAt("X", 78, 105);
+    LCD.WriteAt("X", 78, 170);
 }
